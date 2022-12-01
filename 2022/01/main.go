@@ -21,9 +21,9 @@ func main() {
 
 	var list []int
 	var tempNumber int
+	var max int
 
 	for scanner.Scan() {
-
 		if scanner.Text() != "" {
 			number, err := strconv.Atoi(scanner.Text())
 			if err != nil {
@@ -31,21 +31,22 @@ func main() {
 			}
 			tempNumber += number
 		} else {
+			if tempNumber > max {
+				max = tempNumber
+			}
 			list = append(list, tempNumber)
 			tempNumber = 0
 		}
 	}
+
+	if tempNumber > max {
+		max = tempNumber
+	}
+
 	list = append(list, tempNumber)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
-	}
-
-	var max int
-	for _, value := range list {
-		if value > max {
-			max = value
-		}
 	}
 
 	fmt.Println(max)
@@ -55,5 +56,4 @@ func main() {
 	})
 
 	fmt.Println(list[0] + list[1] + list[2])
-
 }
