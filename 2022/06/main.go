@@ -33,8 +33,6 @@ func part1(input io.Reader) {
 
 		index++
 		letter := scanner.Text()
-		fmt.Print(letter)
-		fmt.Println(counter)
 		if _, present := set[letter]; present {
 			for i, val := range marker {
 				delete(set, val)
@@ -44,7 +42,6 @@ func part1(input io.Reader) {
 					break
 				}
 			}
-			fmt.Println()
 		}
 		set[letter] = struct{}{}
 		marker = append(marker, letter)
@@ -57,7 +54,7 @@ func part1(input io.Reader) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Print(index)
+	fmt.Println(index)
 }
 
 func part2(input io.Reader) {
@@ -72,8 +69,6 @@ func part2(input io.Reader) {
 
 		index++
 		letter := scanner.Text()
-		fmt.Print(letter)
-		fmt.Println(counter)
 		if _, present := set[letter]; present {
 			for i, val := range marker {
 				delete(set, val)
@@ -83,7 +78,6 @@ func part2(input io.Reader) {
 					break
 				}
 			}
-			fmt.Println()
 		}
 		set[letter] = struct{}{}
 		marker = append(marker, letter)
@@ -96,5 +90,5 @@ func part2(input io.Reader) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Print(index)
+	fmt.Println(index)
 }
