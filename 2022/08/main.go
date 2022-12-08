@@ -103,28 +103,25 @@ func printMap(visibleMap [][]bool, heightMap [][]int) {
 
 func part2(input []string) {
 	heightMap := make([][]int, len(input))
-	scoreMap := make([][]int, len(input))
+	var result int
 
 	for i, row := range input {
 		heightMap[i] = make([]int, len(row))
-		scoreMap[i] = make([]int, len(row))
 		for j, char := range row {
 			heightMap[i][j] = int(char - '0')
-			scoreMap[i][j] = 1
 		}
 	}
 
 	length := len(heightMap)
 	for i := 0; i < length; i++ {
 		for j := 0; j < length; j++ {
+			score := 1
 			// north side and south side
 			if i == 0 || i == length-1 {
-				scoreMap[i][j] = 0
 				continue
 			}
 			// west side and east side
 			if j == 0 || j == length-1 {
-				scoreMap[i][j] = 0
 				continue
 			}
 			// north
@@ -136,7 +133,7 @@ func part2(input []string) {
 				}
 				distance++
 			}
-			scoreMap[i][j] *= distance
+			score *= distance
 
 			// south
 			distance = 0
@@ -147,7 +144,7 @@ func part2(input []string) {
 				}
 				distance++
 			}
-			scoreMap[i][j] *= distance
+			score *= distance
 
 			// east
 			distance = 0
@@ -158,7 +155,7 @@ func part2(input []string) {
 				}
 				distance++
 			}
-			scoreMap[i][j] *= distance
+			score *= distance
 
 			// west
 			distance = 0
@@ -169,17 +166,12 @@ func part2(input []string) {
 				}
 				distance++
 			}
-			scoreMap[i][j] *= distance
-		}
-	}
-
-	result := 0
-	for _, row := range scoreMap {
-		for _, score := range row {
+			score *= distance
 			if score > result {
 				result = score
 			}
 		}
 	}
+
 	fmt.Println(result)
 }
