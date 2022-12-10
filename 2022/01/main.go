@@ -1,59 +1,36 @@
 package main
 
 import (
-	"bufio"
+	_ "embed"
 	"fmt"
-	"log"
-	"os"
 	"sort"
 	"strconv"
+	"strings"
 )
 
+//go:embed input.txt
+var input string
+
 func main() {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	foodByElf := strings.Split(strings.TrimRight(input, "\n"), "\n\n")
+	caloriesByElf := make([]int, len(foodByElf))
 
-	defer file.Close()
+	calculateCaloriesByElf(foodByElf, caloriesByElf)
 
-	scanner := bufio.NewScanner(file)
+	sort.Sort(sort.Reverse(sort.IntSlice(caloriesByElf)))
 
-	var list []int
-	var tempNumber int
-	var max int
+	fmt.Println(caloriesByElf[0])
+	fmt.Println(caloriesByElf[0] + caloriesByElf[1] + caloriesByElf[2])
+}
 
-	for scanner.Scan() {
-		if scanner.Text() != "" {
-			number, err := strconv.Atoi(scanner.Text())
+func calculateCaloriesByElf(foodByElf []string, caloriesByElf []int) {
+	for i, food := range foodByElf {
+		for _, cals := range strings.Split(food, "\n") {
+			calories, err := strconv.Atoi(cals)
 			if err != nil {
-				log.Fatal(err)
+				panic(err)
 			}
-			tempNumber += number
-		} else {
-			if tempNumber > max {
-				max = tempNumber
-			}
-			list = append(list, tempNumber)
-			tempNumber = 0
+			caloriesByElf[i] += calories
 		}
 	}
-
-	if tempNumber > max {
-		max = tempNumber
-	}
-
-	list = append(list, tempNumber)
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(max)
-
-	sort.Slice(list, func(i, j int) bool {
-		return list[j] < list[i]
-	})
-
-	fmt.Println(list[0] + list[1] + list[2])
 }
