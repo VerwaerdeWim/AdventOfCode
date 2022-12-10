@@ -5,6 +5,7 @@ The jungle must be too overgrown and difficult to navigate in vehicles or access
 The Elves take turns writing down the number of Calories contained by the various meals, snacks, rations, <span title="By &quot;etc&quot;, you're pretty sure they just mean &quot;more snacks&quot;.">etc.</span> that they've brought with them, one item per line. Each Elf separates their own inventory from the previous Elf's inventory (if any) by a blank line.
 
 For example, suppose the Elves finish writing their items' Calories and end up with the following list:
+
 ```
 1000
 2000
@@ -21,6 +22,7 @@ For example, suppose the Elves finish writing their items' Calories and end up w
 
 10000
 ```
+
 This list represents the Calories of the food carried by five Elves:
 - The first Elf is carrying food with `1000`, `2000`, and `3000` Calories, a total of **`6000`** Calories.
 - The second Elf is carrying one food item with **`4000`** Calories.
