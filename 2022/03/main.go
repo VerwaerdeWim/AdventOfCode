@@ -1,32 +1,23 @@
 package main
 
 import (
-	"bufio"
+	_ "embed"
 	"fmt"
-	"io"
-	"log"
-	"os"
 	"strings"
 )
 
+//go:embed input.txt
+var input string
+
 func main() {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer file.Close()
-
-	part1(file)
-	file.Seek(0, io.SeekStart)
-	part2(file)
+	stringSlice := strings.Split(strings.TrimRight(input, "\n"), "\n")
+	part1(stringSlice)
+	part2(stringSlice)
 }
 
-func part1(input io.Reader) {
+func part1(input []string) {
 	var total int
-	scanner := bufio.NewScanner(input)
-	for scanner.Scan() {
-		row := scanner.Text()
+	for _, row := range input {
 		size := len(row) / 2
 		comp1 := row[:size]
 		comp2 := row[size:]
@@ -47,20 +38,14 @@ func part1(input io.Reader) {
 		total += int(item)
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
 	fmt.Println(total)
 }
 
-func part2(input io.Reader) {
-	scanner := bufio.NewScanner(input)
+func part2(input []string) {
 	var i int
 	var sacks [3]string
 	var total int
-	for scanner.Scan() {
-		row := scanner.Text()
+	for _, row := range input {
 		sacks[i] = row
 		i = (i + 1) % 3
 		if i == 0 {
@@ -90,8 +75,5 @@ func part2(input io.Reader) {
 		}
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
 	fmt.Println(total)
 }
