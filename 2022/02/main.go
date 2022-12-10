@@ -1,39 +1,26 @@
 package main
 
 import (
-	"bufio"
+	_ "embed"
 	"fmt"
-	"io"
-	"log"
-	"os"
+	"strings"
 )
 
+//go:embed input.txt
+var input string
+
 func main() {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer file.Close()
-
-	part1(file)
-	file.Seek(0, io.SeekStart)
-	part2(file)
+	stringSlice := strings.Split(strings.TrimRight(input, "\n"), "\n")
+	part1(stringSlice)
+	part2(stringSlice)
 }
 
-func part1(input io.Reader) {
+func part1(input []string) {
 	var total int
 
-	scanner := bufio.NewScanner(input)
-
-	for scanner.Scan() {
-		row := scanner.Text()
+	for _, row := range input {
 		other, me := normalizeInput(row)
 		total += calcPoints(other, me)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	fmt.Println(total)
@@ -58,20 +45,13 @@ func calcPoints(other byte, me byte) int {
 // X lose
 // Y draw
 // Z win
-func part2(input io.Reader) {
+func part2(input []string) {
 	var total int
 
-	scanner := bufio.NewScanner(input)
-
-	for scanner.Scan() {
-		row := scanner.Text()
+	for _, row := range input {
 		other, me := normalizeInput(row)
-		me = updateMe(other, me)
+		updateMe(other, &me)
 		total += calcPoints(other, me)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	fmt.Println(total)
@@ -80,6 +60,6 @@ func part2(input io.Reader) {
 // Win:		me - 1 = 1
 // Draw:	me - 1 = 0
 // Lose:	me - 1 = -1
-func updateMe(other byte, me byte) byte {
-	return (other + me - 1 + 3) % 3
+func updateMe(other byte, me *byte) {
+	*me = (other + *me - 1 + 3) % 3
 }
